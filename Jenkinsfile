@@ -81,9 +81,11 @@ pipeline{
                                     remoteDirectory:"${REMOTE_DIR}",
                                     flatten: true,
                                     execCommand:"""
-                                        pkill -f "java -jar" || true
+                                        pkill -f ${JAR_NAME} || true
 
-                                        nohup java -jar *.jar > application.log 2>&1&
+                                        sleep 2
+
+                                        nohup java -jar ${JAR_NAME} --server.port=${APP_PORT} > application.log 2>&1 &
                                     """
                                 )
                             ]
