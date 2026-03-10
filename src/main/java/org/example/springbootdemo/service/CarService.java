@@ -25,4 +25,8 @@ public class CarService {
         return repo.findAll();
     }
 
+    public void deleteCar(Long id){
+        repo.deleteById(id);;
+    }
+
 }

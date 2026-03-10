@@ -13,7 +13,6 @@ public class Cars {
     private double price;
 
     public Cars(){
-
     }
 
     public Cars(Long id, String model, String name, double price) {
