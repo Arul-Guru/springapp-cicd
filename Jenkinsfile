@@ -80,7 +80,7 @@ pipeline{
                                     removePrefix: "target/",
                                     remoteDirectory:"${REMOTE_DIR}",
                                     flatten: true,
-                                    exexCommand:"""
+                                    execCommand:"""
                                         pkill -f "java -jar" || true
 
                                         nohup java -jar *.jar > application.log 2>&1&
