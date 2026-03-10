@@ -2,8 +2,8 @@ pipeline{
     agent: any
 
     tools{
-        jdk: "JDK21"
-        maven: "Maven3"
+        jdk "JDK21"
+        maven "Maven3"
     }
 
     options {
@@ -72,7 +72,7 @@ pipeline{
                 sshPublisher(
                     publishers:[
                         sshPublisherDesc{
-                            configName: "ec2-server",
+                            configName:"ec2-server",
                             verbose: true,
                             transfers:[
                                 sshTransfer(
