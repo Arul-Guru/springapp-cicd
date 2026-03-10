@@ -71,7 +71,7 @@ pipeline{
             steps{
                 sshPublisher(
                     publishers:[
-                        sshPublisherDesc{
+                        sshPublisherDesc(
                             configName:"ec2-server",
                             verbose: true,
                             transfers:[
@@ -88,7 +88,7 @@ pipeline{
                                 )
                             ]
 
-                        }
+                        )
                     ]
                 )
 
