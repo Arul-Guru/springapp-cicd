@@ -1,0 +1,46 @@
+name: Springapp CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  spring-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Cache Maven Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{runner.os}}-m2-@{{hashFiles('**/pom.xml')}}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Build application
+        run: mvn clean package
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
+
+      - name: Deply to Azure
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: spring-ecomm
+          publish-profile: ${{secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
+          package: target/*.jar
