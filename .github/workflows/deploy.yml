@@ -66,7 +66,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: SonarQube Scan
-        if: github.ref == "refs/heads/main" || github.ref == 'refs/heads/dev/'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev/'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN -Dsonar.organization=arul-guru -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.projectKey=Arul-Guru_springapp-cicd
@@ -74,7 +74,7 @@ jobs:
 
       - name: Deply to Azure (dev)
         uses: azure/webapps-deploy@v3
-        if: needs.spring-build.outputs.env == "dev"
+        if: needs.spring-build.outputs.env == 'dev'
         with:
           app-name: spring-dev-ecomm
           publish-profile: ${{secrets.AZURE_WEBAPP_DEV_PUBLISH_PROFILE}}
@@ -82,7 +82,7 @@ jobs:
 
       - name: Deply to Azure (test)
         uses: azure/webapps-deploy@v3
-        if: needs.spring-build.outputs.env == "test"
+        if: needs.spring-build.outputs.env == 'test'
         with:
           app-name: spring-test-ecomm
           publish-profile: ${{secrets.AZURE_WEBAPP_TEST_PUBLISH_PROFILE}}
@@ -90,7 +90,7 @@ jobs:
 
       - name: Deply to Azure (prod)
         uses: azure/webapps-deploy@v3
-        if: needs.spring-build.outputs.env == "prod"
+        if: needs.spring-build.outputs.env == 'prod'
         with:
           app-name: spring-prod-ecomm
           publish-profile: ${{secrets.AZURE_WEBAPP_PROD_PUBLISH_PROFILE}}
