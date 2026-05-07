@@ -76,19 +76,19 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
           path: target
-
-      - name: Checkout code
-        uses: actions/checkout@v4
       - name: SonarQube Scan
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev/'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN -Dsonar.organization=arul-guru -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.projectKey=Arul-Guru_springapp-cicd
+        run: mvn sonar:sonar -Dsonar.java.binaries=target/classes -Dsonar.token=$SONAR_TOKEN -Dsonar.organization=arul-guru -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.projectKey=Arul-Guru_springapp-cicd
 
       - name: Deply to Azure (dev)
         uses: azure/webapps-deploy@v3
